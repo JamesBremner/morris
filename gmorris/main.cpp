@@ -1,5 +1,5 @@
 #include <iostream>
-#include <math.h>
+
 #include <nana/gui.hpp>
 #include "cBoard.h"
 
@@ -7,15 +7,6 @@ using namespace nana;
 
 form fm;
 drawing dw(fm);
-
-grid_t grid( pixel_t p )
-{
-    return round( (p-130) / 75.0 );
-}
-pixel_t pixel( grid_t g )
-{
-    return 130 + 75 * g;
-}
 
 int main()
 {
@@ -25,7 +16,11 @@ int main()
         fm.size( size(712,714));
         fm.show();
 
+        // read image for board
         nana::paint::image img("Board.bmp");
+
+        // specify board image transformation from pixels to grids
+        theBoard.GraphBoard( 130, 75 );
 
         dw.draw([&img](nana::paint::graphics & graph)
         {
@@ -54,7 +49,7 @@ int main()
 
                 grid_t gx, gy;
                 p.get( gx, gy );
-                graph.rectangle( rectangle( pixel(gx)-5,pixel(gy)-5,10,10),true,c);
+                graph.rectangle( rectangle( theBoard.pixel(gx)-5,theBoard.pixel(gy)-5,10,10),true,c);
             }
         });
         dw.update();
@@ -71,17 +66,17 @@ int main()
 //             std::cout<<  x <<" "<< y <<" "<< (int)gx <<" " << (int)gy << "\n";
 //            std::cout << arg.left_button <<" "<< arg.right_button <<" "<< arg.mid_button << "\n";
 
+            int point = theBoard.Indexp(
+                            (pixel_t)x,
+                            (pixel_t)y );
             theBoard.Place(
-                grid( (pixel_t)x),
-                grid( (pixel_t)y),
+                point+1,
                 o
             );
 
             dw.update();
 
-            if( theBoard.IsMill( theBoard.Index(
-                                     grid( (pixel_t)x),
-                                     grid( (pixel_t)y)) ) )
+            if( theBoard.IsMill( point ) )
             {
                 msgbox mill("!!! MILL !!!");
                 mill.show();

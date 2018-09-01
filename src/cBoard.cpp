@@ -1,10 +1,12 @@
 #include <iostream>
+#include <math.h>
 #include "cBoard.h"
 
 cBoard theBoard;
 
 cBoard::cBoard()
 {
+    // Construct the points on grid intersections
     int index = 0;
     myPoint.push_back( cPoint( 0,0, index++ ));
     myPoint.push_back( cPoint( 3,0, index++  ));
@@ -31,6 +33,7 @@ cBoard::cBoard()
     myPoint.push_back( cPoint( 3,6, index++  ));
     myPoint.push_back( cPoint( 6,6, index++  ));
 
+    // construct possible mills on point indices
     myMill.push_back( cMill(1,2,3));
     myMill.push_back( cMill(4,5,6));
     myMill.push_back( cMill(7,8,9));
@@ -98,6 +101,11 @@ void cBoard::Place( grid_t x, grid_t y, eOccupant o )
         return;
     Place( point, o );
 }
+
+int cBoard::Indexp( pixel_t px, pixel_t py )
+{
+    return Index( grid(px), grid(py) );
+}
 int cBoard::Index( grid_t x, grid_t y )
 {
     for( cPoint p : myPoint )
@@ -109,3 +117,11 @@ int cBoard::Index( grid_t x, grid_t y )
     }
     return -1;
 }
+    grid_t cBoard::grid( pixel_t p )
+    {
+        return round( (p-myGraphOffet) / myGraphScale );
+    }
+    pixel_t cBoard::pixel( grid_t g )
+    {
+        return myGraphOffet + myGraphScale * g;
+    }
