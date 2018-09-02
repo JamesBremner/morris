@@ -3,7 +3,7 @@
 #include <nana/gui.hpp>
 #include <cBoard.h>
 
-
+/** Morris board for GUI applications */
 class cBoardGraph : public cBoard
 {
 public:
@@ -15,6 +15,10 @@ public:
     int Index( pixel_t px, pixel_t py );
 
     bool Place( pixel_t px, pixel_t py, bool isWhite );
+    bool Place( int point, eOccupant o )
+    {
+        return cBoard::Place( point, o );
+    }
 
 protected:
 

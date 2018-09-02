@@ -2,10 +2,12 @@
 
 #include <nana/gui.hpp>
 #include "cBoardGraph.h"
+#include "cAutoPlayer.h"
 
 using namespace nana;
 
 cBoardGraph theBoard;
+cAutoPlayer theAutoPlayer;
 form fm;
 drawing dw(fm);
 
@@ -28,7 +30,7 @@ int main()
             bool mill = theBoard.Place(
                             (pixel_t)arg.pos.x,
                             (pixel_t)arg.pos.y,
-                            arg.left_button
+                            false
                         );
 
             dw.update();
@@ -36,7 +38,22 @@ int main()
             if( mill )
             {
                 msgbox mill("!!! MILL !!!");
+                mill << "Player has achieved a mill";
                 mill.show();
+            }
+            else
+            {
+                // computer plays
+                bool mill = theBoard.Place(
+                                theAutoPlayer.Play( (cBoard*)&theBoard ),
+                                eOccupant::white );
+                dw.update();
+                if( mill )
+                {
+                    msgbox mill("!!! MILL !!!");
+                    mill << "Computer has achieved a mill";
+                    mill.show();
+                }
             }
         });
 
