@@ -1,5 +1,6 @@
 #ifndef CPOINT_H
 #define CPOINT_H
+#include <iostream>
 #include <vector>
 
 enum class eOccupant
@@ -34,6 +35,10 @@ class cPoint
         int Index()
         {
             return myIndex;
+        }
+        void Clear()
+        {
+            myOccupant = eOccupant::none;
         }
 
     protected:

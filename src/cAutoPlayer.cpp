@@ -13,11 +13,11 @@ cAutoPlayer::~cAutoPlayer()
     //dtor
 }
 
- int cAutoPlayer::Play( cBoard * board )
+ int cAutoPlayer::Play( )
  {
      int point;
      do {
         point = rand() % 24;
-     } while ( board->Occupant( point ) != eOccupant::none );
+     } while ( theBoard.Occupant( point ) != eOccupant::none );
      return point;
  }

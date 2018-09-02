@@ -14,6 +14,7 @@
 				<Compiler>
 					<Add option="-std=c++11" />
 					<Add option="-g" />
+					<Add directory="include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -23,6 +24,7 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="include" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -32,6 +34,7 @@
 		<Compiler>
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
+			<Add directory="../include" />
 		</Compiler>
 		<Linker>
 			<Add library="nana" />
@@ -39,6 +42,16 @@
 			<Add library="comdlg32" />
 			<Add directory="$(#nana.lib)" />
 		</Linker>
+		<Unit filename="../include/cAutoPlayer.h" />
+		<Unit filename="../include/cBoard.h" />
+		<Unit filename="../include/cBoardGraph.h" />
+		<Unit filename="../include/cMill.h" />
+		<Unit filename="../include/cPoint.h" />
+		<Unit filename="../src/cAutoPlayer.cpp" />
+		<Unit filename="../src/cBoard.cpp" />
+		<Unit filename="../src/cBoardGraph.cpp" />
+		<Unit filename="../src/cMill.cpp" />
+		<Unit filename="../src/cPoint.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

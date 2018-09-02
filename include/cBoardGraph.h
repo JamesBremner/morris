@@ -4,7 +4,7 @@
 #include <cBoard.h>
 
 /** Morris board for GUI applications */
-class cBoardGraph : public cBoard
+class cBoardGraph
 {
 public:
     cBoardGraph();
@@ -17,7 +17,7 @@ public:
     bool Place( pixel_t px, pixel_t py, bool isWhite );
     bool Place( int point, eOccupant o )
     {
-        return cBoard::Place( point, o );
+        return theBoard.Place( point, o );
     }
 
 protected:
@@ -31,7 +31,5 @@ private:
 
     pixel_t pixel( grid_t g );
 };
-
-extern cBoardGraph theBoardGraph;
 
 #endif // CBOARDGRAPH_H

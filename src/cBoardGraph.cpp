@@ -24,7 +24,7 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
 {
     myImage.paste(graph, nana::point{} );
 
-    for( auto p : myPoint )
+    for( auto p : theBoard )
     {
         color c = colors::black;
         switch( p.Occupant() )
@@ -50,12 +50,12 @@ bool cBoardGraph::Place( pixel_t px, pixel_t py, bool isWhite )
     eOccupant o = eOccupant::black;
     if( isWhite )
         o = eOccupant::white;
-    return cBoard::Place( grid(px), grid(py), o );
+    return theBoard.Place( grid(px), grid(py), o );
 }
 
 int cBoardGraph::Index( pixel_t px, pixel_t py )
 {
-    return cBoard::Index( grid(px), grid(py) );
+    return theBoard.Index( grid(px), grid(py) );
 }
 grid_t cBoardGraph::grid( pixel_t p )
 {

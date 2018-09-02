@@ -2,6 +2,8 @@
 #include <math.h>
 #include "cBoard.h"
 
+cBoard theBoard;
+
 cBoard::cBoard()
 {
     // Construct the points on grid intersections
@@ -114,4 +116,25 @@ int cBoard::Index( grid_t x, grid_t y )
     }
     return -1;
 }
+
+void cBoard::Clear()
+{
+    for( cPoint& p : myPoint )
+    {
+        p.Clear();
+    }
+}
+
+ int cBoard::CountPieces()
+ {
+     int count = 0;
+         for( cPoint p : myPoint )
+    {
+        if( p.Occupant() != eOccupant::none )
+            count++;
+       // std::cout << (int)p.Occupant();
+    }
+    //std::cout << "\n";
+    return count;
+ }
 

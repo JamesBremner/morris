@@ -6,7 +6,7 @@
 
 using namespace nana;
 
-cBoardGraph theBoard;
+cBoardGraph G;
 cAutoPlayer theAutoPlayer;
 form fm;
 drawing dw(fm);
@@ -21,13 +21,13 @@ int main()
 
         dw.draw([](nana::paint::graphics & graph)
         {
-            theBoard.Draw( graph );
+            G.Draw( graph );
         });
         dw.update();
 
         fm.events().mouse_down([](const arg_mouse& arg)
         {
-            bool mill = theBoard.Place(
+            bool mill = G.Place(
                             (pixel_t)arg.pos.x,
                             (pixel_t)arg.pos.y,
                             false
@@ -40,12 +40,14 @@ int main()
                 msgbox mill("!!! MILL !!!");
                 mill << "Player has achieved a mill";
                 mill.show();
+                theBoard.Clear();
+                dw.update();
             }
             else
             {
                 // computer plays
-                bool mill = theBoard.Place(
-                                theAutoPlayer.Play( (cBoard*)&theBoard ),
+                bool mill = G.Place(
+                                theAutoPlayer.Play(),
                                 eOccupant::white );
                 dw.update();
                 if( mill )
@@ -53,6 +55,8 @@ int main()
                     msgbox mill("!!! MILL !!!");
                     mill << "Computer has achieved a mill";
                     mill.show();
+                    theBoard.Clear();
+                    dw.update();
                 }
             }
         });

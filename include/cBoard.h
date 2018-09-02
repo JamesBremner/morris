@@ -85,8 +85,10 @@ public:
         return myPoint.end();
     }
 
+    /** Clear pieces, ready for new game */
+    void Clear();
 
-
+    int CountPieces();
 
 
 protected:
@@ -96,5 +98,7 @@ protected:
 
 
 };
+
+extern cBoard theBoard;
 
 #endif // CBOARD_H
