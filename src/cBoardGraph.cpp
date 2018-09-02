@@ -22,10 +22,13 @@ cBoardGraph::~cBoardGraph()
 
 void cBoardGraph::Draw( nana::paint::graphics & graph )
 {
+    // Display board image
     myImage.paste(graph, nana::point{} );
 
+    // loop over points
     for( auto p : theBoard )
     {
+        // find color of piece on point
         color c = colors::black;
         switch( p.Occupant() )
         {
@@ -36,12 +39,18 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
             c = colors::blue;
             break;
         }
+
+        // check for no piece
         if( c == colors::black )
             continue;
 
+        // display piece
         grid_t gx, gy;
         p.get( gx, gy );
-        graph.rectangle( rectangle( pixel(gx)-5,pixel(gy)-5,10,10),true,c);
+        graph.round_rectangle(
+            rectangle( pixel(gx)-10,pixel(gy)-10,20,20),
+            10, 10,
+            c, true, c );
     }
 }
 
