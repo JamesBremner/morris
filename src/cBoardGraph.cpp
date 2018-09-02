@@ -53,6 +53,13 @@ bool cBoardGraph::Place( pixel_t px, pixel_t py, bool isWhite )
     return theBoard.Place( grid(px), grid(py), o );
 }
 
+bool cBoardGraph::Remove( pixel_t px, pixel_t py, eOccupant o )
+{
+    return theBoard.Remove(
+               Index( px, py),
+               o );
+}
+
 int cBoardGraph::Index( pixel_t px, pixel_t py )
 {
     return theBoard.Index( grid(px), grid(py) );

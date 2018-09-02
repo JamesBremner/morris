@@ -19,6 +19,7 @@ public:
     {
         return theBoard.Place( point, o );
     }
+    bool Remove( pixel_t px, pixel_t py, eOccupant o );
 
 protected:
 

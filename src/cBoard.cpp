@@ -78,7 +78,8 @@ void cBoard::Display()
 bool cBoard::Place( int point, eOccupant o )
 {
     myPoint[ point-1 ].Place( o );
-    if( IsMill( point-1 )) {
+    if( IsMill( point-1 ))
+    {
         std::cout << "!!! MILL !!!\n";
         return true;
     }
@@ -117,6 +118,15 @@ int cBoard::Index( grid_t x, grid_t y )
     return -1;
 }
 
+bool cBoard::Remove( int point, eOccupant o )
+{
+    if( myPoint[ point ].Occupant() != o )
+        return false;
+    myPoint[ point ].Clear();
+    return true;
+
+}
+
 void cBoard::Clear()
 {
     for( cPoint& p : myPoint )
@@ -125,16 +135,16 @@ void cBoard::Clear()
     }
 }
 
- int cBoard::CountPieces()
- {
-     int count = 0;
-         for( cPoint p : myPoint )
+int cBoard::CountPieces()
+{
+    int count = 0;
+    for( cPoint p : myPoint )
     {
         if( p.Occupant() != eOccupant::none )
             count++;
-       // std::cout << (int)p.Occupant();
+        // std::cout << (int)p.Occupant();
     }
     //std::cout << "\n";
     return count;
- }
+}
 

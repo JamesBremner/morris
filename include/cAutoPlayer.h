@@ -17,6 +17,12 @@ class cAutoPlayer
     */
     int Play();
 
+    /** Remove random opponent piece
+
+    Called after computer achieves mill
+    */
+    void RemoveOpponentPiece();
+
 };
 
 #endif // CAUTOPLAYER_H

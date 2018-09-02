@@ -13,6 +13,8 @@ drawing dw(fm);
 
 int main()
 {
+    eOccupant removing = eOccupant::none;
+
     try
     {
         fm.caption("char-par");
@@ -25,39 +27,53 @@ int main()
         });
         dw.update();
 
-        fm.events().mouse_down([](const arg_mouse& arg)
+        fm.events().mouse_down([&removing](const arg_mouse& arg)
         {
-            bool mill = G.Place(
-                            (pixel_t)arg.pos.x,
-                            (pixel_t)arg.pos.y,
-                            false
-                        );
-
-            dw.update();
-
-            if( mill )
+            if( removing == eOccupant::none )
             {
-                msgbox mill("!!! MILL !!!");
-                mill << "Player has achieved a mill";
-                mill.show();
-                theBoard.Clear();
-                dw.update();
-            }
-            else
-            {
-                // computer plays
                 bool mill = G.Place(
-                                theAutoPlayer.Play(),
-                                eOccupant::white );
+                                (pixel_t)arg.pos.x,
+                                (pixel_t)arg.pos.y,
+                                false
+                            );
+
                 dw.update();
+
                 if( mill )
                 {
                     msgbox mill("!!! MILL !!!");
-                    mill << "Computer has achieved a mill";
+                    mill << "Player has achieved a mill\n"
+                            "Click on blue piece to remove";
                     mill.show();
-                    theBoard.Clear();
+                    removing = eOccupant::white;
                     dw.update();
                 }
+                else
+                {
+                    // computer plays
+                    bool mill = G.Place(
+                                    theAutoPlayer.Play(),
+                                    eOccupant::white );
+                    dw.update();
+                    if( mill )
+                    {
+                        msgbox mill("!!! MILL !!!");
+                        mill << "Computer has achieved a mill\n"
+                                "A red piece will be removed from board";
+                        mill.show();
+                        theAutoPlayer.RemoveOpponentPiece();
+                        dw.update();
+                    }
+                }
+            }
+            else
+            {
+                G.Remove(
+                    (pixel_t)arg.pos.x,
+                    (pixel_t)arg.pos.y,
+                    removing );
+                removing = eOccupant::none;
+                dw.update();
             }
         });
 

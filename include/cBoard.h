@@ -85,6 +85,19 @@ public:
         return myPoint.end();
     }
 
+    /** Remove opponent's piece from board
+        @param[in] point index of point containg piece to be removed
+        @param[in] o color of piexe to be removed
+        @return true if successfully removed
+
+        Called after mill achieved.
+        If point does not contain enemy piece, nothing happens
+        except return false
+
+    */
+    bool Remove( int point, eOccupant o );
+
+
     /** Clear pieces, ready for new game */
     void Clear();
 
