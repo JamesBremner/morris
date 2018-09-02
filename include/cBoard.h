@@ -39,8 +39,9 @@ public:
         @param[in] x grid location
         @param[in] y grid location
         @param[in] o color of piece
+        @return true if placement creates a mill
     */
-    void Place( grid_t x, grid_t y, eOccupant o );
+    bool Place( grid_t x, grid_t y, eOccupant o );
 
     /** Position index from grid location
         @param[in] x grid location
@@ -49,14 +50,19 @@ public:
     */
     int Index( grid_t x, grid_t y );
 
-    int Indexp( pixel_t px, pixel_t py );
-
     /** Place a piece on an empty position
         @param[in] point index of position, 1-based
-    */
-    void Place( int point, eOccupant o );
+        @param[in] o color of piece to be placed
+        @return true if placement creates a mill
 
-    /** True if board contains a mill ( three pieces in a line ) */
+        If position already occupied, will be ignored
+    */
+    bool Place( int point, eOccupant o );
+
+    /** True if board contains a mill ( three pieces in a line )
+        @param[in] point index of position where piece was last placed - must be part of mill
+        @return true if mill achieved with position
+    */
     bool IsMill( int point );
 
     /** Color of piece occupying position
@@ -79,29 +85,16 @@ public:
         return myPoint.end();
     }
 
-    /** Set dimensions of graphical representation of board */
-    void GraphBoard( int offset, double scale )
-    {
-        myGraphOffet = offset;
-        myGraphScale = scale;
-    }
 
-    grid_t grid( pixel_t p );
 
-    pixel_t pixel( grid_t g );
 
 
 protected:
 
-private:
     std::vector< cPoint > myPoint;
     std::vector< cMill > myMill;
-    int myGraphOffet;
-    double myGraphScale;
+
 
 };
-
-// provide external axis to the board`
-extern cBoard theBoard;
 
 #endif // CBOARD_H

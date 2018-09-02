@@ -2,8 +2,6 @@
 #include <math.h>
 #include "cBoard.h"
 
-cBoard theBoard;
-
 cBoard::cBoard()
 {
     // Construct the points on grid intersections
@@ -75,11 +73,14 @@ void cBoard::Display()
     }
 }
 
-void cBoard::Place( int point, eOccupant o )
+bool cBoard::Place( int point, eOccupant o )
 {
     myPoint[ point-1 ].Place( o );
-    if( IsMill( point-1 ))
+    if( IsMill( point-1 )) {
         std::cout << "!!! MILL !!!\n";
+        return true;
+    }
+    return false;
 }
 
 bool cBoard::IsMill( int point )
@@ -88,24 +89,20 @@ bool cBoard::IsMill( int point )
     {
         if( ! mill.Includes( point ))
             continue;
-        if( mill.IsFull( theBoard.Occupant( point )))
+        if( mill.IsFull( this->Occupant( point ),this ))
             return true;
     }
     return false;
 }
 
-void cBoard::Place( grid_t x, grid_t y, eOccupant o )
+bool cBoard::Place( grid_t x, grid_t y, eOccupant o )
 {
     int point = Index( x, y ) + 1;
     if( point < 0 )
-        return;
-    Place( point, o );
+        return false;
+    return Place( point, o );
 }
 
-int cBoard::Indexp( pixel_t px, pixel_t py )
-{
-    return Index( grid(px), grid(py) );
-}
 int cBoard::Index( grid_t x, grid_t y )
 {
     for( cPoint p : myPoint )
@@ -117,11 +114,4 @@ int cBoard::Index( grid_t x, grid_t y )
     }
     return -1;
 }
-    grid_t cBoard::grid( pixel_t p )
-    {
-        return round( (p-myGraphOffet) / myGraphScale );
-    }
-    pixel_t cBoard::pixel( grid_t g )
-    {
-        return myGraphOffet + myGraphScale * g;
-    }
+
