@@ -85,6 +85,15 @@ public:
         return myPoint.end();
     }
 
+    std::vector< cMill >::iterator begin_mill()
+    {
+        return myMill.begin();
+    }
+    std::vector< cMill >::iterator end_mill()
+    {
+        return myMill.end();
+    }
+
     /** Remove opponent's piece from board
         @param[in] point index of point containg piece to be removed
         @param[in] o color of piexe to be removed

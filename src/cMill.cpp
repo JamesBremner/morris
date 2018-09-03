@@ -19,12 +19,35 @@ bool cMill::Includes( int i )
 bool cMill::IsFull( eOccupant o )
 {
     for( int k = 0; k< 3; k++ )
-    if( theBoard.Occupant( myPoint[k] ) != o )
-        return false;
+        if( theBoard.Occupant( myPoint[k] ) != o )
+            return false;
     for( int k = 0; k< 3; k++ )
         std::cout << myPoint[k] << " ";
     std::cout << "\n";
     return true;
+}
+
+int cMill::IsNearlyFull( eOccupant o )
+{
+    int count = 0;
+    int empty = -1;
+    for( int k = 0; k< 3; k++ )
+    {
+        eOccupant actual = theBoard.Occupant( myPoint[k] );
+        if( actual == o ) {
+            count++;
+            continue;
+        }
+        if( actual == eOccupant::none)
+        {
+            empty = myPoint[k];
+            continue;
+        }
+        return -1;
+    }
+    if ( count == 2 )
+        return empty;
+    return -1;
 }
 
 cMill::~cMill()

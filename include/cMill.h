@@ -25,6 +25,13 @@ class cMill
         */
         bool IsFull( eOccupant o );
 
+        /** Check for mill nearly full with opponent's pieces
+            @param[in] o color of opponent's pieces
+            @return -1 mill is not nearly full
+            @return 0 to 23 index of one point still empty
+        */
+        int IsNearlyFull( eOccupant o );
+
     private:
         int myPoint[3];
 };
