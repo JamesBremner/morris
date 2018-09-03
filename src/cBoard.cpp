@@ -26,6 +26,8 @@ cBoard::cBoard()
     myMill.push_back( cMill(9,13,18));
     myMill.push_back( cMill(6,14,21));
     myMill.push_back( cMill(3,15,24));
+
+    Clear();
 }
 
 cBoard::~cBoard()
@@ -119,12 +121,24 @@ bool cBoard::Remove( int point, eOccupant o )
 
 }
 
+void cBoard::Move( int point )
+{
+    if( 0 > point || point > 23 )
+        return;
+    if( 0 > mySelected || mySelected > 23 )
+        return;
+    myPoint[ point ].Place( myPoint[ mySelected].Occupant() );
+    myPoint[ mySelected ].Clear();
+}
+
 void cBoard::Clear()
 {
     for( cPoint& p : myPoint )
     {
         p.Clear();
     }
+    myPlayPhase = ePlayPhase::placing;
+    mySelected = -1;
 }
 
 int cBoard::CountPieces()

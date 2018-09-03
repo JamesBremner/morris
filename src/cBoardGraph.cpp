@@ -51,6 +51,16 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
             rectangle( pixel(gx)-10,pixel(gy)-10,20,20),
             10, 10,
             c, true, c );
+
+        if( p.Index() == theBoard.Select() )
+        {
+            graph.line(point(pixel(gx)-10,pixel(gy)-10),
+                       point(pixel(gx)+10,pixel(gy)+10),
+                       colors::white );
+            graph.line(point(pixel(gx)+10,pixel(gy)-10),
+                       point(pixel(gx)-10,pixel(gy)+10),
+                       colors::white );
+        }
     }
 }
 

@@ -11,10 +11,11 @@ class cPlayerAuto : public cPlayer
         cPlayerAuto();
         virtual ~cPlayerAuto();
 
-    /** Select a legal random point to place the next computer piece
+    /** Select a point to place the next computer piece
         @return point ( 1 to 24 ) to play next piece
 
-        The point is chosen at random from among the still empty points
+        Level 2: Foil opponent's attempt to build mill
+        Level 1: The point is chosen at random from among the still empty points
     */
     int Play();
 
@@ -23,6 +24,14 @@ class cPlayerAuto : public cPlayer
     Called after computer achieves mill
     */
     void RemoveOpponentPiece();
+
+    void Level( int l )
+    {
+        myLevel = l;
+    }
+
+    private:
+        int myLevel;
 
 };
 

@@ -4,6 +4,7 @@
 #include "cAutoPlayer.h"
 
 cPlayerAuto::cPlayerAuto()
+: myLevel( 2 )
 {
     /* initialize random seed: */
     srand (time(NULL));
@@ -22,6 +23,7 @@ int cPlayerAuto::Play( )
         throw std::runtime_error( "Computer has no more pieces" );
     }
 
+    if( myLevel > 1 ) {
     // foil any attempts to complete mill
     for( std::vector< cMill >::iterator iter = theBoard.begin_mill();
         iter != theBoard.end_mill(); iter++ )
@@ -31,6 +33,7 @@ int cPlayerAuto::Play( )
                 continue;
             return point;
         }
+    }
 
     // play on random empty point
     int point;

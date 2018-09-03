@@ -5,6 +5,17 @@
 typedef int pixel_t;
 typedef int grid_t;
 
+enum class ePlayPhase
+{
+    placing,
+    placing_removing,
+    moving,
+    moving_destination,
+    moving_removing,
+    flying,
+
+};
+
 #include "cPoint.h"
 #include "cMill.h"
 
@@ -106,14 +117,36 @@ public:
     */
     bool Remove( int point, eOccupant o );
 
+    /** Move piece from selected point
+        @param[in] point destination
+    */
+    void Move( int point );
+
 
     /** Clear pieces, ready for new game */
     void Clear();
 
     int CountPieces();
 
+    ePlayPhase PlayPhase()
+    {
+        return myPlayPhase;
+    }
+    void PlayPhase( ePlayPhase p )
+    {
+        myPlayPhase = p;
+    }
 
-protected:
+    void Select( int point )
+    {
+        mySelected = point;
+    }
+    int Select()
+    {
+        return mySelected;
+    }
+
+private:
 
     /// points where piece can be played
     std::vector< cPoint > myPoint;
@@ -121,7 +154,9 @@ protected:
     /// possible mills
     std::vector< cMill > myMill;
 
-private:
+    int mySelected;
+
+    ePlayPhase myPlayPhase;
 
     /** Construct three points in horizontal row, and possible mill connecting them
         @param[in] x grid location first point
