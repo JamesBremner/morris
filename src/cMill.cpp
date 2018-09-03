@@ -16,10 +16,10 @@ bool cMill::Includes( int i )
             return true;
     return false;
 }
-bool cMill::IsFull( eOccupant o, cBoard* board )
+bool cMill::IsFull( eOccupant o )
 {
     for( int k = 0; k< 3; k++ )
-    if( board->Occupant( myPoint[k] ) != o )
+    if( theBoard.Occupant( myPoint[k] ) != o )
         return false;
     for( int k = 0; k< 3; k++ )
         std::cout << myPoint[k] << " ";

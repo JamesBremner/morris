@@ -1,14 +1,15 @@
 #ifndef CAUTOPLAYER_H
 #define CAUTOPLAYER_H
 #include "cBoard.h"
+#include "cPlayer.h"
 
 /** An automatic player of the Nine Men's Morris game */
-class cAutoPlayer
+class cPlayerAuto : public cPlayer
 {
     /** CTOR */
     public:
-        cAutoPlayer();
-        virtual ~cAutoPlayer();
+        cPlayerAuto();
+        virtual ~cPlayerAuto();
 
     /** Select a legal random point to place the next computer piece
         @return point ( 1 to 24 ) to play next piece

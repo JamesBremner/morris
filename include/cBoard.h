@@ -106,9 +106,23 @@ public:
 
 protected:
 
+    /// points where piece can be played
     std::vector< cPoint > myPoint;
+
+    /// possible mills
     std::vector< cMill > myMill;
 
+private:
+
+    /** Construct three points in horizontal row, and possible mill connecting them
+        @param[in] x grid location first point
+        @param[in] y grid location first point
+        @param[in] xinc x grid increment for other points
+    */
+    void ConstructThreePoints(
+                              int x,
+                              int y,
+                              int xinc );
 
 };
 

@@ -7,7 +7,8 @@
 using namespace nana;
 
 cBoardGraph G;
-cAutoPlayer theAutoPlayer;
+cPlayer theHuman;
+cPlayerAuto theAutoPlayer;
 form fm;
 drawing dw(fm);
 
@@ -33,10 +34,10 @@ int main()
             {
                 // Place human's piece on board
                 int ret = G.Place(
-                            (pixel_t)arg.pos.x,
-                            (pixel_t)arg.pos.y,
-                            eOccupant::black
-                        );
+                              (pixel_t)arg.pos.x,
+                              (pixel_t)arg.pos.y,
+                              eOccupant::black
+                          );
 
                 // check that click was on a point where piece could be placed
                 if( ret == -1 )
@@ -55,23 +56,36 @@ int main()
                     mill.show();
                     removing = eOccupant::white;
                     dw.update();
+                    return;
                 }
-                else
+
+                // check for remaining pieces
+                if( ! theHuman.Piece() )
                 {
-                    // computer plays
-                    int ret = G.Place(
-                                    theAutoPlayer.Play(),
-                                    eOccupant::white );
+                    msgbox msg("All Pieces played");
+                    msg.show();
+
+                    // Clear out, ready for new game
+                    theBoard.Clear();
+                    theHuman.Clear();
+                    theAutoPlayer.Clear();
                     dw.update();
-                    if( ret == 99 )
-                    {
-                        msgbox mill("!!! MILL !!!");
-                        mill << "Computer has achieved a mill\n"
-                             "A red piece will be removed from board";
-                        mill.show();
-                        theAutoPlayer.RemoveOpponentPiece();
-                        dw.update();
-                    }
+                    return;
+                }
+
+                // computer plays
+                ret = G.Place(
+                              theAutoPlayer.Play(),
+                              eOccupant::white );
+                dw.update();
+                if( ret == 99 )
+                {
+                    msgbox mill("!!! MILL !!!");
+                    mill << "Computer has achieved a mill\n"
+                         "A red piece will be removed from board";
+                    mill.show();
+                    theAutoPlayer.RemoveOpponentPiece();
+                    dw.update();
                 }
             }
             else

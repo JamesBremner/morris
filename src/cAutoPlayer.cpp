@@ -2,19 +2,23 @@
 #include <time.h>       /* time */
 #include "cAutoPlayer.h"
 
-cAutoPlayer::cAutoPlayer()
+cPlayerAuto::cPlayerAuto()
 {
     /* initialize random seed: */
     srand (time(NULL));
 }
 
-cAutoPlayer::~cAutoPlayer()
+cPlayerAuto::~cPlayerAuto()
 {
     //dtor
 }
 
-int cAutoPlayer::Play( )
+int cPlayerAuto::Play( )
 {
+    if( ! Piece() )
+    {
+        std::cout << "Computer has no more pieces\n";
+    }
     int point;
     do
     {
@@ -24,7 +28,7 @@ int cAutoPlayer::Play( )
     return point;
 }
 
-void cAutoPlayer::RemoveOpponentPiece()
+void cPlayerAuto::RemoveOpponentPiece()
 {
     int point;
     do

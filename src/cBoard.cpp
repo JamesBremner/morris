@@ -7,41 +7,16 @@ cBoard theBoard;
 cBoard::cBoard()
 {
     // Construct the points on grid intersections
-    int index = 0;
-    myPoint.push_back( cPoint( 0,0, index++ ));
-    myPoint.push_back( cPoint( 3,0, index++  ));
-    myPoint.push_back( cPoint( 6,0, index++  ));
-    myPoint.push_back( cPoint( 1,1, index++  ));
-    myPoint.push_back( cPoint( 3,1, index++  ));
-    myPoint.push_back( cPoint( 5,1, index++  ));
-    myPoint.push_back( cPoint( 2,2, index++  ));
-    myPoint.push_back( cPoint( 3,2, index++  ));
-    myPoint.push_back( cPoint( 4,2, index++  ));
-    myPoint.push_back( cPoint( 0,3, index++  ));
-    myPoint.push_back( cPoint( 1,3, index++  ));
-    myPoint.push_back( cPoint( 2,3, index++  ));
-    myPoint.push_back( cPoint( 4,3, index++  ));
-    myPoint.push_back( cPoint( 5,3, index++  ));
-    myPoint.push_back( cPoint( 6,3, index++  ));
-    myPoint.push_back( cPoint( 2,4, index++  ));
-    myPoint.push_back( cPoint( 3,4, index++  ));
-    myPoint.push_back( cPoint( 4,4, index++  ));
-    myPoint.push_back( cPoint( 1,5, index++  ));
-    myPoint.push_back( cPoint( 3,5, index++  ));
-    myPoint.push_back( cPoint( 5,5, index++  ));
-    myPoint.push_back( cPoint( 0,6, index++  ));
-    myPoint.push_back( cPoint( 3,6, index++  ));
-    myPoint.push_back( cPoint( 6,6, index++  ));
+    ConstructThreePoints( 0, 0, 3 );
+    ConstructThreePoints( 1, 1, 2 );
+    ConstructThreePoints( 2, 2, 1 );
+    ConstructThreePoints( 0, 3, 1 );
+    ConstructThreePoints( 4, 3, 1 );
+    ConstructThreePoints( 2, 4, 1 );
+    ConstructThreePoints( 1, 5, 2 );
+    ConstructThreePoints( 0, 6, 3 );
 
-    // construct possible mills on point indices
-    myMill.push_back( cMill(1,2,3));
-    myMill.push_back( cMill(4,5,6));
-    myMill.push_back( cMill(7,8,9));
-    myMill.push_back( cMill(10,11,12));
-    myMill.push_back( cMill(13,14,15));
-    myMill.push_back( cMill(16,17,18));
-    myMill.push_back( cMill(19,20,21));
-    myMill.push_back( cMill(22,23,24));
+    // construct possible vertical mills on point indices
 
     myMill.push_back( cMill(1,10,22));
     myMill.push_back( cMill(4,11,19));
@@ -56,6 +31,21 @@ cBoard::cBoard()
 cBoard::~cBoard()
 {
     //dtor
+}
+
+void cBoard::ConstructThreePoints(
+    int x,
+    int y,
+    int xinc )
+{
+    myPoint.push_back( cPoint( x, y, myPoint.size() ));
+    x += xinc;
+    myPoint.push_back( cPoint( x, y, myPoint.size() ));
+    x += xinc;
+    myPoint.push_back( cPoint( x, y, myPoint.size() ));
+
+    int last = myPoint.size();
+    myMill.push_back( cMill( last-2, last-1, last ));
 }
 
 void cBoard::Display()
@@ -89,7 +79,7 @@ bool cBoard::IsMill( int point )
     {
         if( ! mill.Includes( point ))
             continue;
-        if( mill.IsFull( this->Occupant( point ),this ))
+        if( mill.IsFull( this->Occupant( point ) ))
             return true;
     }
     return false;
