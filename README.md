@@ -7,7 +7,7 @@ https://en.wikipedia.org/wiki/Nine_men%27s_morris
 
 1. Display decorative board with positions and mill lines
 1. User places red piece by clicking on empty position with mouse button
-2. Compuer replies by placing blue piece on random empty position
+2. Compuer replies by placing blue piece so as to prevent user completing mill if it can, otherwise on random empty position
 3. If either player achieves mill, three pieces in a line, pop-up displays success message
 1. If user achieves mill, remove one of computer pieces by clicking on it
 1. If computer achieves mill, one of user's pieces at random will be removed
