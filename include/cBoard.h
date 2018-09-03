@@ -46,16 +46,16 @@ public:
     /** Position index from grid location
         @param[in] x grid location
         @param[in] y grid location
+        @return 0-based index of position at grid location
         @return -1 if no position there
     */
     int Index( grid_t x, grid_t y );
 
     /** Place a piece on an empty position
-        @param[in] point index of position, 1-based
+        @param[in] point index of position, 0-based
         @param[in] o color of piece to be placed
-        @return true if placement creates a mill
-
-        If position already occupied, will be ignored
+        @return true if placement successful
+        @return false if point out of range or already occupied
     */
     bool Place( int point, eOccupant o );
 

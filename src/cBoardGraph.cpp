@@ -54,13 +54,26 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
     }
 }
 
-bool cBoardGraph::Place( pixel_t px, pixel_t py, bool isWhite )
-{
-    eOccupant o = eOccupant::black;
-    if( isWhite )
-        o = eOccupant::white;
-    return theBoard.Place( grid(px), grid(py), o );
-}
+    int cBoardGraph::Place( pixel_t px, pixel_t py, eOccupant o )
+    {
+        // convert from pixel location to point index
+        int point = Index( px, py );
+
+        // check there was a point at the location clicked
+        if( point < 0 )
+            return -1;
+
+        // place the piece
+        if( ! theBoard.Place( point, o ) )
+            return -1;
+
+        // check for new mill
+        if( theBoard.IsMill( point ))
+            return 99;
+
+        // return point where piece placed
+        return point;
+    }
 
 bool cBoardGraph::Remove( pixel_t px, pixel_t py, eOccupant o )
 {

@@ -14,7 +14,19 @@ public:
 
     int Index( pixel_t px, pixel_t py );
 
-    bool Place( pixel_t px, pixel_t py, bool isWhite );
+    /** Place piece on point clicked
+        @param[in] px x pixel location
+        @param[in] py y pixel location
+        @param[in] o piece to place
+        @return 0 to 23 point index where piece placed
+        @return -1 no point at location
+        @return 99 mill created
+    */
+    int Place(
+        pixel_t px,
+        pixel_t py,
+        eOccupant o );
+
     bool Place( int point, eOccupant o )
     {
         return theBoard.Place( point, o );

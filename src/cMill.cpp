@@ -21,6 +21,9 @@ bool cMill::IsFull( eOccupant o, cBoard* board )
     for( int k = 0; k< 3; k++ )
     if( board->Occupant( myPoint[k] ) != o )
         return false;
+    for( int k = 0; k< 3; k++ )
+        std::cout << myPoint[k] << " ";
+    std::cout << "\n";
     return true;
 }
 

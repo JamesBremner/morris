@@ -31,19 +31,27 @@ int main()
         {
             if( removing == eOccupant::none )
             {
-                bool mill = G.Place(
-                                (pixel_t)arg.pos.x,
-                                (pixel_t)arg.pos.y,
-                                false
-                            );
+                // Place human's piece on board
+                int ret = G.Place(
+                            (pixel_t)arg.pos.x,
+                            (pixel_t)arg.pos.y,
+                            eOccupant::black
+                        );
+
+                // check that click was on a point where piece could be placed
+                if( ret == -1 )
+                {
+                    return;
+                }
 
                 dw.update();
 
-                if( mill )
+                // check if mill was created
+                if( ret == 99 )
                 {
                     msgbox mill("!!! MILL !!!");
                     mill << "Player has achieved a mill\n"
-                            "Click on blue piece to remove";
+                         "Click on blue piece to remove";
                     mill.show();
                     removing = eOccupant::white;
                     dw.update();
@@ -51,15 +59,15 @@ int main()
                 else
                 {
                     // computer plays
-                    bool mill = G.Place(
+                    int ret = G.Place(
                                     theAutoPlayer.Play(),
                                     eOccupant::white );
                     dw.update();
-                    if( mill )
+                    if( ret == 99 )
                     {
                         msgbox mill("!!! MILL !!!");
                         mill << "Computer has achieved a mill\n"
-                                "A red piece will be removed from board";
+                             "A red piece will be removed from board";
                         mill.show();
                         theAutoPlayer.RemoveOpponentPiece();
                         dw.update();

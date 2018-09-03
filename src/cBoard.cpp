@@ -77,13 +77,10 @@ void cBoard::Display()
 
 bool cBoard::Place( int point, eOccupant o )
 {
-    myPoint[ point-1 ].Place( o );
-    if( IsMill( point-1 ))
-    {
-        std::cout << "!!! MILL !!!\n";
-        return true;
-    }
-    return false;
+    if( 0 > point || point > 23 )
+        return false;
+    myPoint[ point ].Place( o );
+    return true;
 }
 
 bool cBoard::IsMill( int point )
@@ -100,9 +97,14 @@ bool cBoard::IsMill( int point )
 
 bool cBoard::Place( grid_t x, grid_t y, eOccupant o )
 {
-    int point = Index( x, y ) + 1;
+    // convert grid location to point index
+    int point = Index( x, y );
+
+    // check there is a point at the grid location
     if( point < 0 )
         return false;
+
+    // place the piece
     return Place( point, o );
 }
 
