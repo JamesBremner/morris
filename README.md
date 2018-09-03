@@ -11,3 +11,4 @@ https://en.wikipedia.org/wiki/Nine_men%27s_morris
 3. If either player achieves mill, three pieces in a line, pop-up displays success message
 1. If user achieves mill, remove one of computer pieces by clicking on it
 1. If computer achieves mill, one of user's pieces at random will be removed
+1. Restart game when user has played nine pieces. ( Phase 2, moving pieces is not yet implemented )
