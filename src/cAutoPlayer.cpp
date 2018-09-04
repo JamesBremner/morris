@@ -19,6 +19,8 @@ cPlayerAuto::~cPlayerAuto()
 
 void cPlayerAuto::Places()
 {
+    if( theBoard.PlayPhase() == ePlayPhase::placing_removing )
+        return;
     // computer plays
     int ret = G.Place(
                   Play(),
@@ -62,6 +64,8 @@ int cPlayerAuto::Play( )
 
 void cPlayerAuto::Move()
 {
+    if( theBoard.PlayPhase() == ePlayPhase::moving_removing )
+        return;
     int src, dst;
     do
     {

@@ -3,6 +3,7 @@
 #include <vector>
 
 typedef int pixel_t;
+typedef std::pair<pixel_t,pixel_t> click_t;
 typedef int grid_t;
 
 enum class ePlayPhase

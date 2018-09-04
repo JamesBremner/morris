@@ -10,16 +10,18 @@ class cPlayerHuman : public cPlayer
         cPlayerHuman();
 
         /** Place a piece
-            @param[in] x pixel position of destination
-            @param[in] y pixel position of destination
+            @param[in] click pixel position of destination
         */
-        void Places( pixel_t x, pixel_t y );
+        void Places( click_t click );
+
+        void Remove( click_t click );
+
+        void Move1( click_t click );
 
         /** complete move
-            @param[in] x pixel position of destination
-            @param[in] y pixel position of destination
+            @param[in] click pixel position of destination
         */
-        void Move2( pixel_t x, pixel_t y );
+        void Move2( click_t click  );
 
 };
 

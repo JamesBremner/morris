@@ -31,13 +31,15 @@ int main()
 
         fm.events().mouse_down([](const arg_mouse& arg)
         {
+            click_t click(
+                (pixel_t)arg.pos.x,
+                (pixel_t)arg.pos.y );
+
             switch( theBoard.PlayPhase() )
             {
             case ePlayPhase::placing:
             {
-                theHuman.Places(
-                    (pixel_t)arg.pos.x,
-                    (pixel_t)arg.pos.y );
+                theHuman.Places( click );
                 dw.update();
 
                 theAutoPlayer.Places();
@@ -47,11 +49,7 @@ int main()
 
             case ePlayPhase::placing_removing:
             {
-                G.Remove(
-                    (pixel_t)arg.pos.x,
-                    (pixel_t)arg.pos.y,
-                    eOccupant::white );
-                theBoard.PlayPhase( ePlayPhase::placing );
+                theHuman.Remove( click );
                 dw.update();
 
                 theAutoPlayer.Places();
@@ -61,44 +59,29 @@ int main()
 
             case ePlayPhase::moving:
             {
-                int point = G.Index( (pixel_t)arg.pos.x,
-                                     (pixel_t)arg.pos.y);
-                if( theBoard.Occupant( point ) != eOccupant::black )
-                    return;
-                theBoard.Select( G.Index( (pixel_t)arg.pos.x,
-                                          (pixel_t)arg.pos.y));
-                theBoard.PlayPhase( ePlayPhase::moving_destination );
+                theHuman.Move1( click );
+                dw.update();
+
+                theAutoPlayer.Move();
                 dw.update();
             }
             break;
 
             case ePlayPhase::moving_destination:
             {
-                // human player has selected destination for move
-                theHuman.Move2((pixel_t)arg.pos.x,
-                               (pixel_t)arg.pos.y);
+                theHuman.Move2( click );
                 dw.update();
 
-                // if human move did not complete a mill, computer gets a move
-                if( theBoard.PlayPhase() != ePlayPhase::moving_removing )
-                {
-                    theAutoPlayer.Move();
-                    dw.update();
-                }
+                theAutoPlayer.Move();
+                dw.update();
             }
             break;
 
             case ePlayPhase::moving_removing:
             {
-                // human player has selected computer's piece to remove
-                G.Remove(
-                    (pixel_t)arg.pos.x,
-                    (pixel_t)arg.pos.y,
-                    eOccupant::white );
-                theBoard.PlayPhase( ePlayPhase::moving );
+                theHuman.Remove( click );
                 dw.update();
 
-                // computer moves
                 theAutoPlayer.Move();
                 dw.update();
             }
