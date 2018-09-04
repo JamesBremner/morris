@@ -25,9 +25,6 @@ void cPlayerAuto::Places()
                   eOccupant::white );
     if( ret == 99 )
     {
-        G.Message("!!! MILL !!!",
-                  "Computer has achieved a mill\n"
-                  "A red piece will be removed from board");
         RemoveOpponentPiece();
     }
 }
@@ -76,12 +73,17 @@ void cPlayerAuto::Move()
         dst = rand() % 24;
     }
     while( theBoard.Occupant( dst ) != eOccupant::none &&
-          theBoard.IsNext( src, dst ));
+            theBoard.IsNext( src, dst ));
     theBoard.Move( dst, src );
+    if( theBoard.IsMill( src ))
+        RemoveOpponentPiece();
 }
 
 void cPlayerAuto::RemoveOpponentPiece()
 {
+    G.Message("!!! MILL !!!",
+              "Computer has achieved a mill\n"
+              "A red piece will be removed from board");
     int point;
     do
     {
