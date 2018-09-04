@@ -34,7 +34,8 @@ int cMill::IsNearlyFull( eOccupant o )
     for( int k = 0; k< 3; k++ )
     {
         eOccupant actual = theBoard.Occupant( myPoint[k] );
-        if( actual == o ) {
+        if( actual == o )
+        {
             count++;
             continue;
         }
@@ -48,6 +49,21 @@ int cMill::IsNearlyFull( eOccupant o )
     if ( count == 2 )
         return empty;
     return -1;
+}
+bool cMill::IsNext( int a, int b )
+{
+    if( ! Includes( a ))
+        return false;
+    if( ! Includes( b ))
+        return false;
+    if(
+        (myPoint[0] == a && myPoint[1] == b ) ||
+        (myPoint[0] == b && myPoint[1] == a ) ||
+        (myPoint[1] == a && myPoint[2] == b ) ||
+        (myPoint[1] == b && myPoint[2] == a )
+    )
+        return true;
+    return false;
 }
 
 cMill::~cMill()

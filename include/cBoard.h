@@ -122,6 +122,8 @@ public:
     */
     void Move( int point );
 
+    void Move( int dst, int src );
+
 
     /** Clear pieces, ready for new game */
     void Clear();
@@ -145,6 +147,8 @@ public:
     {
         return mySelected;
     }
+
+    bool IsNext( int a, int b );
 
 private:
 

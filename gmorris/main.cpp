@@ -53,6 +53,9 @@ int main()
                     eOccupant::white );
                 theBoard.PlayPhase( ePlayPhase::placing );
                 dw.update();
+
+                theAutoPlayer.Places();
+                dw.update();
             }
             break;
 
@@ -77,6 +80,8 @@ int main()
                     return;
                 theBoard.Move( point );
                 theBoard.PlayPhase( ePlayPhase::moving );
+                dw.update();
+                theAutoPlayer.Move();
                 dw.update();
             }
             break;

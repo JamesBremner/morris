@@ -32,6 +32,8 @@ class cMill
         */
         int IsNearlyFull( eOccupant o );
 
+        bool IsNext( int a, int b );
+
     private:
         int myPoint[3];
 };

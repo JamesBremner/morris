@@ -131,6 +131,18 @@ void cBoard::Move( int point )
     myPoint[ mySelected ].Clear();
 }
 
+void cBoard::Move( int dst, int src )
+{
+    if( 0 > dst || dst > 23 )
+        return;
+    if( 0 > src || src > 23 )
+        return;
+    if( Occupant(dst) != eOccupant::none )
+        return;
+    myPoint[ dst ].Place( myPoint[ src].Occupant() );
+    myPoint[ src ].Clear();
+}
+
 void cBoard::Clear()
 {
     for( cPoint& p : myPoint )
@@ -152,5 +164,15 @@ int cBoard::CountPieces()
     }
     //std::cout << "\n";
     return count;
+}
+
+bool cBoard::IsNext( int a, int b )
+{
+    for( cMill mill : myMill )
+    {
+        if( mill.IsNext(a,b))
+            return true;
+    }
+    return false;
 }
 

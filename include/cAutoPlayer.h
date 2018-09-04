@@ -27,6 +27,8 @@ class cPlayerAuto : public cPlayer
     */
     void RemoveOpponentPiece();
 
+    void Move();
+
     void Level( int l )
     {
         myLevel = l;

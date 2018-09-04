@@ -63,6 +63,23 @@ int cPlayerAuto::Play( )
     return point;
 }
 
+void cPlayerAuto::Move()
+{
+    int src, dst;
+    do
+    {
+        do
+        {
+            src = rand() % 24;
+        }
+        while ( theBoard.Occupant( src ) != eOccupant::white );
+        dst = rand() % 24;
+    }
+    while( theBoard.Occupant( dst ) != eOccupant::none &&
+          theBoard.IsNext( src, dst ));
+    theBoard.Move( dst, src );
+}
+
 void cPlayerAuto::RemoveOpponentPiece()
 {
     int point;
