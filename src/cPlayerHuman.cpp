@@ -40,3 +40,25 @@ void cPlayerHuman::Places( pixel_t x, pixel_t y )
         return;
     }
 }
+
+void cPlayerHuman::Move2( pixel_t x, pixel_t y )
+{
+    int point = G.Index( x,y);
+    if( theBoard.Occupant( point ) != eOccupant::none ) {
+        theBoard.PlayPhase( ePlayPhase::moving );
+        return;
+    }
+    theBoard.Move( point );
+
+    if( theBoard.IsMill( point )) {
+        G.Message(
+            "!!! MILL !!!",
+            "Player has achieved a mill\n"
+            "Click on blue piece to remove");
+        theBoard.PlayPhase( ePlayPhase::moving_removing );
+        return;
+    }
+
+    theBoard.PlayPhase( ePlayPhase::moving );
+    return;
+}

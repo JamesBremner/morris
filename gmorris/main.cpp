@@ -74,13 +74,31 @@ int main()
 
             case ePlayPhase::moving_destination:
             {
-                int point = G.Index( (pixel_t)arg.pos.x,
-                                     (pixel_t)arg.pos.y);
-                if( theBoard.Occupant( point ) != eOccupant::none )
-                    return;
-                theBoard.Move( point );
+                // human player has selected destination for move
+                theHuman.Move2((pixel_t)arg.pos.x,
+                               (pixel_t)arg.pos.y);
+                dw.update();
+
+                // if human move did not complete a mill, computer gets a move
+                if( theBoard.PlayPhase() != ePlayPhase::moving_removing )
+                {
+                    theAutoPlayer.Move();
+                    dw.update();
+                }
+            }
+            break;
+
+            case ePlayPhase::moving_removing:
+            {
+                // human player has selected computer's piece to remove
+                G.Remove(
+                    (pixel_t)arg.pos.x,
+                    (pixel_t)arg.pos.y,
+                    eOccupant::white );
                 theBoard.PlayPhase( ePlayPhase::moving );
                 dw.update();
+
+                // computer moves
                 theAutoPlayer.Move();
                 dw.update();
             }
