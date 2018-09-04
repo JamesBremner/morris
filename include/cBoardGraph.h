@@ -7,7 +7,7 @@
 class cBoardGraph
 {
 public:
-    cBoardGraph();
+    cBoardGraph( nana::drawing& dw);
     virtual ~cBoardGraph();
 
     void Draw( nana::paint::graphics & graph );
@@ -33,10 +33,15 @@ public:
     }
     bool Remove( pixel_t px, pixel_t py, eOccupant o );
 
+    void Message(
+                 const std::string& title,
+                 const std::string& text);
+
 protected:
 
 private:
     nana::paint::image myImage;
+    nana::drawing& myDrawing;
     int myGraphOffet;
     double myGraphScale;
 

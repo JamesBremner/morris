@@ -1,10 +1,11 @@
 #include "cBoardGraph.h"
 using namespace nana;
 
-cBoardGraph::cBoardGraph()
+cBoardGraph::cBoardGraph( drawing& dw )
     : myImage("Board.bmp")
     , myGraphOffet( 130)
     , myGraphScale( 75)
+    , myDrawing( dw )
 {
     if (myImage.empty())
     {
@@ -64,26 +65,26 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
     }
 }
 
-    int cBoardGraph::Place( pixel_t px, pixel_t py, eOccupant o )
-    {
-        // convert from pixel location to point index
-        int point = Index( px, py );
+int cBoardGraph::Place( pixel_t px, pixel_t py, eOccupant o )
+{
+    // convert from pixel location to point index
+    int point = Index( px, py );
 
-        // check there was a point at the location clicked
-        if( point < 0 )
-            return -1;
+    // check there was a point at the location clicked
+    if( point < 0 )
+        return -1;
 
-        // place the piece
-        if( ! theBoard.Place( point, o ) )
-            return -1;
+    // place the piece
+    if( ! theBoard.Place( point, o ) )
+        return -1;
 
-        // check for new mill
-        if( theBoard.IsMill( point ))
-            return 99;
+    // check for new mill
+    if( theBoard.IsMill( point ))
+        return 99;
 
-        // return point where piece placed
-        return point;
-    }
+    // return point where piece placed
+    return point;
+}
 
 bool cBoardGraph::Remove( pixel_t px, pixel_t py, eOccupant o )
 {
@@ -103,4 +104,14 @@ grid_t cBoardGraph::grid( pixel_t p )
 pixel_t cBoardGraph::pixel( grid_t g )
 {
     return myGraphOffet + myGraphScale * g;
+}
+
+void cBoardGraph::Message(
+    const std::string& title,
+    const std::string& text)
+{
+    myDrawing.update();
+    msgbox msg( title );
+    msg << text;
+    msg.show();
 }

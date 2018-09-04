@@ -11,6 +11,8 @@ class cPlayerAuto : public cPlayer
         cPlayerAuto();
         virtual ~cPlayerAuto();
 
+    void Places();
+
     /** Select a point to place the next computer piece
         @return point ( 1 to 24 ) to play next piece
 

@@ -3,61 +3,16 @@
 #include <nana/gui.hpp>
 #include "cBoardGraph.h"
 #include "cAutoPlayer.h"
+#include "cPlayerHuman.h"
 
 using namespace nana;
 
-cBoardGraph G;
-cPlayer theHuman;
-cPlayerAuto theAutoPlayer;
 form fm;
 drawing dw(fm);
+cBoardGraph G( dw );
+cPlayerHuman theHuman;
+cPlayerAuto theAutoPlayer;
 
-void HumanPlaces( pixel_t x, pixel_t y )
-{
-    // Place human's piece on board
-    int ret = G.Place(
-                  x,
-                  y,
-                  eOccupant::black
-              );
-
-    // check that click was on a point where piece could be placed
-    if( ret == -1 )
-    {
-        return;
-    }
-
-    dw.update();
-
-    // check if mill was created
-    if( ret == 99 )
-    {
-        msgbox mill("!!! MILL !!!");
-        mill << "Player has achieved a mill\n"
-             "Click on blue piece to remove";
-        mill.show();
-        theBoard.PlayPhase( ePlayPhase::placing_removing );
-        dw.update();
-        return;
-    }
-
-    // check for remaining pieces
-    if( ! theHuman.Piece() )
-    {
-        msgbox msg("All Pieces played");
-        msg.show();
-        theBoard.PlayPhase( ePlayPhase::moving );
-
-        // Clear out, ready for new game
-//                    theBoard.Clear();
-//                    theHuman.Clear();
-//                    theAutoPlayer.Clear();
-//                    dw.update();
-        return;
-    }
-
-
-}
 
 int main()
 {
@@ -80,24 +35,13 @@ int main()
             {
             case ePlayPhase::placing:
             {
-                HumanPlaces(
+                theHuman.Places(
                     (pixel_t)arg.pos.x,
                     (pixel_t)arg.pos.y );
-
-                // computer plays
-                int ret = G.Place(
-                          theAutoPlayer.Play(),
-                          eOccupant::white );
                 dw.update();
-                if( ret == 99 )
-                {
-                    msgbox mill("!!! MILL !!!");
-                    mill << "Computer has achieved a mill\n"
-                         "A red piece will be removed from board";
-                    mill.show();
-                    theAutoPlayer.RemoveOpponentPiece();
-                    dw.update();
-                }
+
+                theAutoPlayer.Places();
+                dw.update();
             }
             break;
 
