@@ -50,6 +50,15 @@ void cBoard::ConstructThreePoints(
     myMill.push_back( cMill( last-2, last-1, last ));
 }
 
+void cBoard::Variant( const std::string& var )
+{
+    if( var == "Standard" )
+        myVariant = eVariant::standard;
+    if( var == "Lasker" )
+        myVariant = eVariant::lasker;
+}
+
+
 void cBoard::Display()
 {
     std::vector< std::vector<char> > a(7, std::vector<char>(7,' ') );
@@ -117,6 +126,8 @@ bool cBoard::Remove( int point, eOccupant o )
     if( myPoint[ point ].Occupant() != o )
         return false;
     myPoint[ point ].Clear();
+    Select( point );
+    std::cout << "removed " << point << "\n";
     return true;
 
 }
@@ -149,7 +160,7 @@ void cBoard::Clear()
     {
         p.Clear();
     }
-    myPlayPhase = ePlayPhase::placing;
+    myPhase.Clear();
     mySelected = -1;
 }
 

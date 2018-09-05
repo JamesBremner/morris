@@ -8,10 +8,26 @@ cPlayerHuman::cPlayerHuman()
 }
 void cPlayerHuman::Places( click_t click )
 {
+    int point = G.Index(
+                    click.first,
+                    click.second);
+
+    if( theBoard.Occupant( point ) != eOccupant::none )
+    {
+        if( theBoard.Variant() != eVariant::lasker )
+            return;
+        else
+        {
+            if( theBoard.Occupant( point ) != eOccupant::black )
+                return;
+            Move1( click );
+            return;
+        }
+    }
+
     // Place human's piece on board
-    int ret = G.Place(
-                  click.first,
-                  click.second,
+    int ret = theBoard.Place(
+                  point,
                   eOccupant::black
               );
 
@@ -22,13 +38,13 @@ void cPlayerHuman::Places( click_t click )
     }
 
     // check if mill was created
-    if( ret == 99 )
+    if( theBoard.IsMill( point ) )
     {
         G.Message(
             "!!! MILL !!!",
             "Player has achieved a mill\n"
             "Click on blue piece to remove");
-        theBoard.PlayPhase( ePlayPhase::placing_removing );
+        theBoard.Action( cPhase::eAction::mill );
         return;
     }
 
@@ -36,7 +52,7 @@ void cPlayerHuman::Places( click_t click )
     if( ! Piece() )
     {
         G.Message("All Pieces played","");
-        theBoard.PlayPhase( ePlayPhase::moving );
+        theBoard.Action( cPhase::eAction::all_played );
         return;
     }
 }
@@ -46,10 +62,7 @@ void cPlayerHuman::Remove(click_t click )
         click.first,
         click.second,
         eOccupant::white );
-    if( theBoard.PlayPhase() == ePlayPhase::placing_removing)
-        theBoard.PlayPhase( ePlayPhase::placing );
-    else
-        theBoard.PlayPhase( ePlayPhase::moving );
+    theBoard.Action( cPhase::eAction::remove );
 }
 
 void cPlayerHuman::Move1( click_t click )
@@ -57,10 +70,12 @@ void cPlayerHuman::Move1( click_t click )
     int point = G.Index(
                     click.first,
                     click.second );
-    if( theBoard.Occupant( point ) != eOccupant::black )
+    if( theBoard.Occupant( point ) != eOccupant::black ) {
+        theBoard.Action( cPhase::eAction::fail );
         return;
+    }
     theBoard.Select( point );
-    theBoard.PlayPhase( ePlayPhase::moving_destination );
+    theBoard.Action( cPhase::eAction::move_src );
 }
 
 void cPlayerHuman::Move2( click_t click )
@@ -70,10 +85,11 @@ void cPlayerHuman::Move2( click_t click )
                     click.second );
     if( theBoard.Occupant( point ) != eOccupant::none )
     {
-        theBoard.PlayPhase( ePlayPhase::moving );
+         theBoard.Action( cPhase::eAction::fail );
         return;
     }
     theBoard.Move( point );
+    theBoard.Action( cPhase::eAction::move_dst );
 
     if( theBoard.IsMill( point ))
     {
@@ -81,10 +97,8 @@ void cPlayerHuman::Move2( click_t click )
             "!!! MILL !!!",
             "Player has achieved a mill\n"
             "Click on blue piece to remove");
-        theBoard.PlayPhase( ePlayPhase::moving_removing );
-        return;
+        theBoard.Action( cPhase::eAction::mill );
     }
 
-    theBoard.PlayPhase( ePlayPhase::moving );
     return;
 }

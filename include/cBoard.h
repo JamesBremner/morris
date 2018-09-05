@@ -1,20 +1,17 @@
 #ifndef CBOARD_H
 #define CBOARD_H
 #include <vector>
+#include "cPhase.h"
 
 typedef int pixel_t;
 typedef std::pair<pixel_t,pixel_t> click_t;
 typedef int grid_t;
 
-enum class ePlayPhase
-{
-    placing,
-    placing_removing,
-    moving,
-    moving_destination,
-    moving_removing,
-    flying,
 
+enum class eVariant
+{
+    standard,
+    lasker
 };
 
 #include "cPoint.h"
@@ -43,6 +40,12 @@ public:
     /** CTOR */
     cBoard();
     virtual ~cBoard();
+
+    void Variant( const std::string& var );
+    eVariant Variant()
+    {
+        return myVariant;
+    }
 
     /** Text Display of state of play */
     void Display();
@@ -131,14 +134,14 @@ public:
 
     int CountPieces();
 
-    ePlayPhase PlayPhase()
+    cPhase::ePhase PlayPhase()
     {
-        return myPlayPhase;
+        return myPhase.get();
     }
-    void PlayPhase( ePlayPhase p )
-    {
-        myPlayPhase = p;
-    }
+//    void PlayPhase( ePlayPhase p )
+//    {
+//        myPlayPhase = p;
+//    }
 
     void Select( int point )
     {
@@ -151,6 +154,11 @@ public:
 
     bool IsNext( int a, int b );
 
+    void Action( cPhase::eAction A )
+    {
+        myPhase.Action( A );
+    }
+
 private:
 
     /// points where piece can be played
@@ -161,7 +169,9 @@ private:
 
     int mySelected;
 
-    ePlayPhase myPlayPhase;
+    cPhase myPhase;
+
+    eVariant myVariant;
 
     /** Construct three points in horizontal row, and possible mill connecting them
         @param[in] x grid location first point
@@ -169,9 +179,9 @@ private:
         @param[in] xinc x grid increment for other points
     */
     void ConstructThreePoints(
-                              int x,
-                              int y,
-                              int xinc );
+        int x,
+        int y,
+        int xinc );
 
 };
 

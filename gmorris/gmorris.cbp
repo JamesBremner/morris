@@ -46,11 +46,17 @@
 		<Unit filename="../include/cBoard.h" />
 		<Unit filename="../include/cBoardGraph.h" />
 		<Unit filename="../include/cMill.h" />
+		<Unit filename="../include/cPhase.h" />
+		<Unit filename="../include/cPlayer.h" />
+		<Unit filename="../include/cPlayerHuman.h" />
 		<Unit filename="../include/cPoint.h" />
 		<Unit filename="../src/cAutoPlayer.cpp" />
 		<Unit filename="../src/cBoard.cpp" />
 		<Unit filename="../src/cBoardGraph.cpp" />
 		<Unit filename="../src/cMill.cpp" />
+		<Unit filename="../src/cPhase.cpp" />
+		<Unit filename="../src/cPlayer.cpp" />
+		<Unit filename="../src/cPlayerHuman.cpp" />
 		<Unit filename="../src/cPoint.cpp" />
 		<Unit filename="main.cpp" />
 		<Extensions>
