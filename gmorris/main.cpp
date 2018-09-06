@@ -49,6 +49,7 @@ int main()
             switch( theBoard.PlayPhase() )
             {
             case cPhase::ePhase::placing:
+            case cPhase::ePhase::lasker:
             {
                 theHuman.Places( click );
                 dw.update();
