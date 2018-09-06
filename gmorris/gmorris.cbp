@@ -35,6 +35,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 			<Add directory="../include" />
+			<Add directory="$(#nana.include)" />
 		</Compiler>
 		<Linker>
 			<Add library="nana" />
