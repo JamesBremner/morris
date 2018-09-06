@@ -39,4 +39,6 @@ class cPlayerAuto : public cPlayer
 
 };
 
+extern cPlayerAuto theAutoPlayer;
+
 #endif // CAUTOPLAYER_H

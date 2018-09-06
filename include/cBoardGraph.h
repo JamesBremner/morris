@@ -12,6 +12,10 @@ public:
 
     void Draw( nana::paint::graphics & graph );
 
+    void Configure( nana::form& fm );
+
+    void Click( const nana::arg_mouse& arg );
+
     int Index( pixel_t px, pixel_t py );
 
     /** Place piece on point clicked

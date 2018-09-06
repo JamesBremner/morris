@@ -1,4 +1,7 @@
 #include "cBoardGraph.h"
+#include "cAutoPlayer.h"
+#include "cPlayerHuman.h"
+#include <nana/system/platform.hpp>
 using namespace nana;
 
 cBoardGraph::cBoardGraph( drawing& dw )
@@ -62,6 +65,78 @@ void cBoardGraph::Draw( nana::paint::graphics & graph )
                        point(pixel(gx)-10,pixel(gy)+10),
                        colors::white );
         }
+    }
+}
+
+void cBoardGraph::Configure( form& fm )
+{
+    inputbox inbox(fm,"","");
+    inputbox::text variant("Variant",std::vector<std::string> {"Standard","Lasker"});
+    inputbox::text level("Computer Opponent Level",std::vector<std::string> {"1","2"});
+    if( ! inbox.show( variant, level ) )
+        exit(1);
+    theBoard.Variant( variant.value() );
+    theAutoPlayer.Level( atoi( level.value().c_str() ) );
+}
+
+void cBoardGraph::Click( const arg_mouse& arg )
+{
+    extern drawing dw;
+
+    click_t click(
+        (pixel_t)arg.pos.x,
+        (pixel_t)arg.pos.y );
+
+    switch( theBoard.PlayPhase() )
+    {
+    case cPhase::ePhase::placing:
+    case cPhase::ePhase::lasker:
+    {
+        theHuman.Places( click );
+        dw.update();
+
+        theAutoPlayer.Places();
+        dw.update();
+    }
+    break;
+
+    case cPhase::ePhase::placing_removing:
+    {
+        theHuman.Remove( click );
+        dw.update();
+        nana::system::sleep( 1000 );
+
+        theAutoPlayer.Places();
+        dw.update();
+    }
+    break;
+
+    case cPhase::ePhase::moving:
+    {
+        theHuman.Move1( click );
+        dw.update();
+    }
+    break;
+
+    case cPhase::ePhase::moving_destination:
+    {
+        theHuman.Move2( click );
+        dw.update();
+
+        theAutoPlayer.Move();
+        dw.update();
+    }
+    break;
+
+    case cPhase::ePhase::moving_removing:
+    {
+        theHuman.Remove( click );
+        dw.update();
+
+        theAutoPlayer.Move();
+        dw.update();
+    }
+    break;
     }
 }
 

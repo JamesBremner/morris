@@ -1,7 +1,6 @@
 #include <iostream>
 
 #include <nana/gui.hpp>
-#include <nana/system/platform.hpp>
 #include "cBoardGraph.h"
 #include "cAutoPlayer.h"
 #include "cPlayerHuman.h"
@@ -17,14 +16,11 @@ cPlayerAuto theAutoPlayer;
 
 int main()
 {
-    theBoard.IsNext(7,22);
-
     try
     {
         fm.caption("char-par");
         fm.size( size(712,714));
         fm.show();
-
 
         dw.draw([](nana::paint::graphics & graph)
         {
@@ -32,71 +28,11 @@ int main()
         });
         dw.update();
 
-        inputbox inbox(fm,"","");
-        inputbox::text variant("Variant",std::vector<std::string> {"Standard","Lasker"});
-        inputbox::text level("Computer Opponent Level",std::vector<std::string>{"1","2"});
-        if( ! inbox.show( variant, level ) )
-            exit(1);
-        theBoard.Variant( variant.value() );
-        theAutoPlayer.Level( atoi( level.value().c_str() ) );
+        G.Configure( fm );
 
         fm.events().mouse_down([](const arg_mouse& arg)
         {
-            click_t click(
-                (pixel_t)arg.pos.x,
-                (pixel_t)arg.pos.y );
-
-            switch( theBoard.PlayPhase() )
-            {
-            case cPhase::ePhase::placing:
-            case cPhase::ePhase::lasker:
-            {
-                theHuman.Places( click );
-                dw.update();
-
-                theAutoPlayer.Places();
-                dw.update();
-            }
-            break;
-
-            case cPhase::ePhase::placing_removing:
-            {
-                theHuman.Remove( click );
-                dw.update();
-                nana::system::sleep( 1000 );
-
-                theAutoPlayer.Places();
-                dw.update();
-            }
-            break;
-
-            case cPhase::ePhase::moving:
-            {
-                theHuman.Move1( click );
-                dw.update();
-            }
-            break;
-
-            case cPhase::ePhase::moving_destination:
-            {
-                theHuman.Move2( click );
-                dw.update();
-
-                theAutoPlayer.Move();
-                dw.update();
-            }
-            break;
-
-            case cPhase::ePhase::moving_removing:
-            {
-                theHuman.Remove( click );
-                dw.update();
-
-                theAutoPlayer.Move();
-                dw.update();
-            }
-            break;
-            }
+            G.Click( arg );
         });
 
         exec();

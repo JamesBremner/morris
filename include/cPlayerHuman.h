@@ -25,4 +25,6 @@ class cPlayerHuman : public cPlayer
 
 };
 
+extern cPlayerHuman theHuman;
+
 #endif // CPLAYERHUMAN_H
