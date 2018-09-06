@@ -17,12 +17,14 @@ cPlayerAuto theAutoPlayer;
 
 int main()
 {
+    theBoard.IsNext(7,22);
+
     try
     {
         fm.caption("char-par");
         fm.size( size(712,714));
         fm.show();
-        //theAutoPlayer.Level( 1 );
+
 
         dw.draw([](nana::paint::graphics & graph)
         {
@@ -36,6 +38,7 @@ int main()
         if( ! inbox.show( variant, level ) )
             exit(1);
         theBoard.Variant( variant.value() );
+        theAutoPlayer.Level( atoi( level.value().c_str() ) );
 
         fm.events().mouse_down([](const arg_mouse& arg)
         {
@@ -69,9 +72,6 @@ int main()
             case cPhase::ePhase::moving:
             {
                 theHuman.Move1( click );
-                dw.update();
-
-                theAutoPlayer.Move();
                 dw.update();
             }
             break;

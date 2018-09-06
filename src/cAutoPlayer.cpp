@@ -19,13 +19,12 @@ cPlayerAuto::~cPlayerAuto()
 
 void cPlayerAuto::Places()
 {
-    if( theBoard.PlayPhase() == cPhase::ePhase::placing_removing )
-        return;
-    // computer plays
-    int ret = G.Place(
-                  Play(),
-                  eOccupant::white );
-    if( ret == 99 )
+    // computer selects play
+    int point = Play();
+    theBoard.Place(
+        point,
+        eOccupant::white );
+    if( theBoard.IsMill( point ) )
     {
         RemoveOpponentPiece();
     }
@@ -39,26 +38,30 @@ int cPlayerAuto::Play( )
 //        throw std::runtime_error( "Computer has no more pieces" );
 //    }
 
+    int point = -1;
     if( myLevel > 1 )
     {
         // foil any attempts to complete mill
         for( std::vector< cMill >::iterator iter = theBoard.begin_mill();
                 iter != theBoard.end_mill(); iter++ )
         {
-            int point = iter->IsNearlyFull( eOccupant::black );
-            if( point == -1 )
-                continue;
-            return point;
+            point = iter->IsNearlyFull( eOccupant::black );
+            if( point >= 0 )
+                break;
         }
     }
 
-    // play on random empty point
-    int point;
-    do
+    if( point < 0 )
     {
-        point = rand() % 24;
+        // play on random empty point
+        do
+        {
+            point = rand() % 24;
+        }
+        while ( theBoard.Occupant( point ) != eOccupant::none );
     }
-    while ( theBoard.Occupant( point ) != eOccupant::none );
+
+    std::cout << "Computer " << point << "\n";
     return point;
 }
 
@@ -77,7 +80,8 @@ void cPlayerAuto::Move()
         dst = rand() % 24;
     }
     while( theBoard.Occupant( dst ) != eOccupant::none &&
-            theBoard.IsNext( src, dst ));
+            ! theBoard.IsNext( src, dst ));
+    std::cout << "Computer move " << src <<" "<< dst << "\n";
     theBoard.Move( dst, src );
     if( theBoard.IsMill( src ))
         RemoveOpponentPiece();

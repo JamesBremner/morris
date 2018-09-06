@@ -126,7 +126,6 @@ bool cBoard::Remove( int point, eOccupant o )
     if( myPoint[ point ].Occupant() != o )
         return false;
     myPoint[ point ].Clear();
-    Select( point );
     std::cout << "removed " << point << "\n";
     return true;
 

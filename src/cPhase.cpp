@@ -56,7 +56,32 @@ void cPhase::Action( eAction A )
         }
     }
     break;
+
+    case ePhase::moving:
+    {
+        switch( A )
+        {
+        case eAction::move_src:
+            myPhase = ePhase::moving_destination;
+            break;
+        }
     }
+    break;
+
+    case ePhase::moving_destination:
+    {
+        switch( A )
+        {
+        case eAction::move_dst:
+            myPhase = ePhase::moving;
+            break;
+        }
+    }
+    break;
+    }
+
+    std::cout << "Phase " << (int)A <<" "
+              << (int)prev <<" "<< (int)myPhase << "\n";
 
     if( myPhase == ePhase::none )
     {

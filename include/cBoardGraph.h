@@ -20,7 +20,6 @@ public:
         @param[in] o piece to place
         @return 0 to 23 point index where piece placed
         @return -1 no point at location
-        @return 99 mill created
     */
     int Place(
         pixel_t px,

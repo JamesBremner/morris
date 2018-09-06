@@ -78,10 +78,6 @@ int cBoardGraph::Place( pixel_t px, pixel_t py, eOccupant o )
     if( ! theBoard.Place( point, o ) )
         return -1;
 
-    // check for new mill
-    if( theBoard.IsMill( point ))
-        return 99;
-
     // return point where piece placed
     return point;
 }
