@@ -1,6 +1,6 @@
 #ifndef CPLAYERHUMAN_H
 #define CPLAYERHUMAN_H
-#include "cBoard.h"
+
 #include "cPlayer.h"
 
 /** Human Player */
@@ -10,18 +10,24 @@ class cPlayerHuman : public cPlayer
         cPlayerHuman();
 
         /** Place a piece
-            @param[in] click pixel position of destination
+            @param[in] point where piece to be placed
         */
-        void Places( click_t click );
+        void Places( int point );
 
-        void Remove( click_t click );
+        /** Remove one of the computer's pieces
+            @param[in] point where the piece to be removed is placed
+        */
+        void Remove( int point );
 
-        void Move1( click_t click );
+        /** Start moving a piece
+            @param[in] point where piece to be moved is currently placed
+        */
+        void Move1( int point );
 
         /** complete move
-            @param[in] click pixel position of destination
+            @param[in] point of destination
         */
-        void Move2( click_t click  );
+        void Move2( int point  );
 
 };
 

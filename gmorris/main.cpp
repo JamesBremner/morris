@@ -4,11 +4,14 @@
 #include "cBoardGraph.h"
 #include "cAutoPlayer.h"
 #include "cPlayerHuman.h"
+#include "cDisplayGraph.h"
 
 using namespace nana;
 
 form fm;
 drawing dw(fm);
+cDisplayGraph theDisplay;
+cBoard theBoard( &theDisplay );
 cBoardGraph G( dw );
 cPlayerHuman theHuman;
 cPlayerAuto theAutoPlayer;

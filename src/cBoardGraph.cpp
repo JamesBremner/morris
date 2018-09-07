@@ -81,63 +81,66 @@ void cBoardGraph::Configure( form& fm )
 
 void cBoardGraph::Click( const arg_mouse& arg )
 {
-    extern drawing dw;
+//    extern drawing dw;
 
-    click_t click(
-        (pixel_t)arg.pos.x,
-        (pixel_t)arg.pos.y );
+    int point = Index(
+                    (pixel_t)arg.pos.x,
+                    (pixel_t)arg.pos.y );
 
-    switch( theBoard.PlayPhase() )
-    {
-    case cPhase::ePhase::placing:
-    case cPhase::ePhase::lasker:
-    {
-        theHuman.Places( click );
-        dw.update();
+    theBoard.Click( point );
 
-        theAutoPlayer.Places();
-        dw.update();
-    }
-    break;
+//    switch( theBoard.PlayPhase() )
+//    {
+//    case cPhase::ePhase::placing:
+//    case cPhase::ePhase::lasker:
+//    {
+//        theHuman.Places( point );
+//        dw.update();
+//
+//        theAutoPlayer.Places();
+//        dw.update();
+//    }
+//    break;
+//
+//    case cPhase::ePhase::placing_removing:
+//    {
+//        theHuman.Remove( point );
+//        dw.update();
+//        nana::system::sleep( 1000 );
+//
+//        theAutoPlayer.Places();
+//        dw.update();
+//    }
+//    break;
+//
+//    case cPhase::ePhase::moving:
+//    {
+//        theHuman.Move1( point );
+//        dw.update();
+//    }
+//    break;
+//
+//    case cPhase::ePhase::moving_destination:
+//    {
+//        theHuman.Move2( point );
+//        dw.update();
+//
+//        theAutoPlayer.Move();
+//        dw.update();
+//    }
+//    break;
+//
+//    case cPhase::ePhase::moving_removing:
+//    {
+//        theHuman.Remove( point );
+//        dw.update();
+//
+//        theAutoPlayer.Move();
+//        dw.update();
+//    }
+//    break;
+//    }
 
-    case cPhase::ePhase::placing_removing:
-    {
-        theHuman.Remove( click );
-        dw.update();
-        nana::system::sleep( 1000 );
-
-        theAutoPlayer.Places();
-        dw.update();
-    }
-    break;
-
-    case cPhase::ePhase::moving:
-    {
-        theHuman.Move1( click );
-        dw.update();
-    }
-    break;
-
-    case cPhase::ePhase::moving_destination:
-    {
-        theHuman.Move2( click );
-        dw.update();
-
-        theAutoPlayer.Move();
-        dw.update();
-    }
-    break;
-
-    case cPhase::ePhase::moving_removing:
-    {
-        theHuman.Remove( click );
-        dw.update();
-
-        theAutoPlayer.Move();
-        dw.update();
-    }
-    break;
-    }
 }
 
 int cBoardGraph::Place( pixel_t px, pixel_t py, eOccupant o )

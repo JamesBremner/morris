@@ -6,12 +6,8 @@ cPlayerHuman::cPlayerHuman()
 {
     //ctor
 }
-void cPlayerHuman::Places( click_t click )
+void cPlayerHuman::Places( int point )
 {
-    int point = G.Index(
-                    click.first,
-                    click.second);
-
     if( theBoard.Occupant( point ) != eOccupant::none )
     {
         if( theBoard.Variant() != eVariant::lasker )
@@ -20,7 +16,7 @@ void cPlayerHuman::Places( click_t click )
         {
             if( theBoard.Occupant( point ) != eOccupant::black )
                 return;
-            Move1( click );
+            Move1( point );
             return;
         }
     }
@@ -56,21 +52,19 @@ void cPlayerHuman::Places( click_t click )
         return;
     }
 }
-void cPlayerHuman::Remove(click_t click )
+void cPlayerHuman::Remove( int point )
 {
-    G.Remove(
-        click.first,
-        click.second,
+    theBoard.Remove(
+        point,
         eOccupant::white );
-    theBoard.Action( cPhase::eAction::remove );
+    theBoard.Action(
+        cPhase::eAction::remove );
 }
 
-void cPlayerHuman::Move1( click_t click )
+void cPlayerHuman::Move1( int point )
 {
-    int point = G.Index(
-                    click.first,
-                    click.second );
-    if( theBoard.Occupant( point ) != eOccupant::black ) {
+    if( theBoard.Occupant( point ) != eOccupant::black )
+    {
         theBoard.Action( cPhase::eAction::fail );
         return;
     }
@@ -78,14 +72,11 @@ void cPlayerHuman::Move1( click_t click )
     theBoard.Action( cPhase::eAction::move_src );
 }
 
-void cPlayerHuman::Move2( click_t click )
+void cPlayerHuman::Move2( int point )
 {
-    int point = G.Index(
-                    click.first,
-                    click.second );
     if( theBoard.Occupant( point ) != eOccupant::none )
     {
-         theBoard.Action( cPhase::eAction::fail );
+        theBoard.Action( cPhase::eAction::fail );
         return;
     }
     theBoard.Move( point );

@@ -1,10 +1,12 @@
 #include <iostream>
 #include <math.h>
 #include "cBoard.h"
+#include "cAutoPlayer.h"
+#include "cPlayerHuman.h"
 
-cBoard theBoard;
 
-cBoard::cBoard()
+cBoard::cBoard( cDisplay * display )
+ : myDisplay( display )
 {
     // Construct the points on grid intersections
     ConstructThreePoints( 0, 0, 3 );
@@ -56,6 +58,64 @@ void cBoard::Variant( const std::string& var )
         myVariant = eVariant::standard;
     if( var == "Lasker" )
         myVariant = eVariant::lasker;
+}
+
+void cBoard::Click( int point )
+{
+    extern cPlayerHuman theHuman;
+    extern cPlayerAuto theAutoPlayer;
+
+    switch( theBoard.PlayPhase() )
+    {
+    case cPhase::ePhase::placing:
+    case cPhase::ePhase::lasker:
+    {
+        theHuman.Places( point );
+        myDisplay->Update();
+
+        theAutoPlayer.Places();
+        myDisplay->Update();
+    }
+    break;
+
+    case cPhase::ePhase::placing_removing:
+    {
+        theHuman.Remove( point );
+        myDisplay->Update();
+        myDisplay->Sleep( 1000 );
+
+        theAutoPlayer.Places();
+        myDisplay->Update();
+    }
+    break;
+
+    case cPhase::ePhase::moving:
+    {
+        theHuman.Move1( point );
+        myDisplay->Update();
+    }
+    break;
+
+    case cPhase::ePhase::moving_destination:
+    {
+        theHuman.Move2( point );
+        myDisplay->Update();
+
+        theAutoPlayer.Move();
+        myDisplay->Update();
+    }
+    break;
+
+    case cPhase::ePhase::moving_removing:
+    {
+        theHuman.Remove( point );
+        myDisplay->Update();
+
+        theAutoPlayer.Move();
+        myDisplay->Update();
+    }
+    break;
+    }
 }
 
 

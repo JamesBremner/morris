@@ -2,11 +2,10 @@
 #define CBOARD_H
 #include <vector>
 #include "cPhase.h"
+#include "cDisplay.h"
 
 typedef int pixel_t;
-typedef std::pair<pixel_t,pixel_t> click_t;
 typedef int grid_t;
-
 
 enum class eVariant
 {
@@ -38,7 +37,7 @@ class cBoard
 {
 public:
     /** CTOR */
-    cBoard();
+    cBoard( cDisplay * display );
     virtual ~cBoard();
 
     void Variant( const std::string& var );
@@ -46,6 +45,8 @@ public:
     {
         return myVariant;
     }
+
+    void Click( int point );
 
     /** Text Display of state of play */
     void Display();
@@ -172,6 +173,8 @@ private:
     cPhase myPhase;
 
     eVariant myVariant;
+
+    cDisplay * myDisplay;
 
     /** Construct three points in horizontal row, and possible mill connecting them
         @param[in] x grid location first point
